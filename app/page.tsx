@@ -1,12 +1,33 @@
-import DataTable from "@/components/DataTable";
+import React, { Suspense } from 'react';
+import CoinOverview from '@/components/home/CoinOverview';
+import TrendingCoins from '@/components/home/TrendingCoins';
+import {
+  CategoriesFallback,
+  CoinOverviewFallback,
+  TrendingCoinsFallback,
+} from '@/components/home/fallback';
+import Categories from '@/components/home/Categories';
 
-export default function Home() {
+const Page = async () => {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black text-white">
-      {/* <h1 className="text-4xl font-bold">
-        🚀 CoinPlus is Live!
-      </h1> */}
-      <DataTable/>
+    <main className="main-container">
+      <section className="home-grid">
+        <Suspense fallback={<CoinOverviewFallback />}>
+          <CoinOverview />
+        </Suspense>
+
+        <Suspense fallback={<TrendingCoinsFallback />}>
+          <TrendingCoins />
+        </Suspense>
+      </section>
+
+      <section className="w-full mt-7 space-y-4">
+        <Suspense fallback={<CategoriesFallback />}>
+          <Categories />
+        </Suspense>
+      </section>
     </main>
   );
-}
+};
+
+export default Page;
